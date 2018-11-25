@@ -23,6 +23,11 @@ class TelsraFragment : Fragment(), CountryView {
     private var countryList: ArrayList<CountryData>? = null
     private var countryAdapter: CountryAdapter? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setRetainInstance(true)
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment

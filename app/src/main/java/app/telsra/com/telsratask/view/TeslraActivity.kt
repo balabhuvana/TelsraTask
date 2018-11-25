@@ -10,7 +10,9 @@ class TeslraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_telsra)
 
-        supportFragmentManager.beginTransaction().replace(R.id.telsraFrameLayout, TelsraFragment()).commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction().replace(R.id.telsraFrameLayout, TelsraFragment()).commit()
+        }
     }
 
 
