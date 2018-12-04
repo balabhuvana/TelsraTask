@@ -20,7 +20,6 @@ import java.util.*
  */
 class CountryAdapter(context: Context, private var notesList: ArrayList<CountryData>) : BaseAdapter() {
 
-    private var context: Context? = context
     private var layoutInflater: LayoutInflater? = null
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -71,7 +70,7 @@ private class ViewHolder(view: View?) {
 
     init {
         this.tvTitle = view?.findViewById(R.id.tvTitle) as TextView
-        this.tvContent = view?.findViewById(R.id.tvContent) as TextView
-        this.countryImage = view?.findViewById(R.id.countryImage)
+        this.tvContent = view.findViewById(R.id.tvContent) as TextView
+        this.countryImage = view.findViewById(R.id.countryImage)
     }
 }

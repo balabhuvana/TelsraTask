@@ -5,7 +5,6 @@ import app.telsra.com.telsratask.model.ResponseData
 import app.telsra.com.telsratask.restservice.CountryService
 import app.telsra.com.telsratask.view.CountryView
 import app.telsra.com.telsratask.view.TelsraFragment
-import app.telsra.com.telsratask.view.TeslraActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
