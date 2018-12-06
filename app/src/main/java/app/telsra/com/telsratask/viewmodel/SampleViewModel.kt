@@ -51,9 +51,7 @@ class SampleViewModel : ViewModel() {
             }
 
             override fun onResponse(call: Call<ResponseData>?, response: Response<ResponseData>?) {
-                val data = response!!.body()
-                val sampledata = data!!.rows
-                countryList!!.postValue(data)
+                countryList!!.postValue(response!!.body())
 
             }
         })
