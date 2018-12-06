@@ -6,11 +6,9 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import app.telsra.com.telsratask.R
 import app.telsra.com.telsratask.adapter.CountryRecyclerAdapter
 import app.telsra.com.telsratask.model.CountryData
@@ -24,6 +22,8 @@ import viewmodel.SampleViewModel
 class TelsraViewModelFragment : Fragment() {
 
     var countryRecyclerAdapter: CountryRecyclerAdapter? = null
+    var filterCountryList: ArrayList<CountryData>? = null
+    var swipeRefreshCountryList: ArrayList<CountryData>? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -34,23 +34,31 @@ class TelsraViewModelFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        swipeFreshLayoutViewModel.setOnRefreshListener {
+            countryRecyclerAdapter!!.clear()
+            countryRecyclerAdapter!!.addAll(this!!.swipeRefreshCountryList!!)
+            swipeFreshLayoutViewModel.isRefreshing = false
+        }
+
         var sampleViewModel = ViewModelProviders.of(this).get(SampleViewModel::class.java)
         sampleViewModel.getCountryList().observe(this, object : Observer<List<CountryData>> {
             override fun onChanged(countryList: List<CountryData>?) {
 
-                var filterCountryList = ArrayList<CountryData>()
+                filterCountryList = ArrayList<CountryData>()
+                swipeRefreshCountryList = ArrayList<CountryData>()
 
                 for (i in 0 until countryList!!.size) {
                     if (countryList.get(i).title != null || countryList.get(i).description != null) {
                         filterCountryList!!.add(countryList.get(i))
+                        swipeRefreshCountryList!!.add(countryList.get(i))
                     }
                 }
 
                 countryRecyclerAdapter = CountryRecyclerAdapter(this@TelsraViewModelFragment.context, filterCountryList!!)
                 val llm = LinearLayoutManager(this@TelsraViewModelFragment.context)
                 llm.orientation = LinearLayoutManager.VERTICAL
-                sampleRecyclerView.setLayoutManager(llm)
-                sampleRecyclerView.setAdapter(countryRecyclerAdapter)
+                sampleRecyclerViewModel.setLayoutManager(llm)
+                sampleRecyclerViewModel.setAdapter(countryRecyclerAdapter)
 
             }
         })

@@ -3,12 +3,12 @@ package app.telsra.com.telsratask.view
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import app.mysecond.com.sampletelsarataskjava.CountryAdapter
 import app.telsra.com.telsratask.R
+import app.telsra.com.telsratask.adapter.CountryRecyclerAdapter
 import app.telsra.com.telsratask.model.CountryData
 import app.telsra.com.telsratask.model.ResponseData
 import app.telsra.com.telsratask.presenter.CountryPresenter
@@ -20,8 +20,8 @@ import kotlinx.android.synthetic.main.fragment_telsra.*
  */
 class TelsraFragment : Fragment(), CountryView {
 
-    private var countryList: ArrayList<CountryData>? = null
-    private var countryAdapter: CountryAdapter? = null
+    private var filterCountryList: ArrayList<CountryData>? = null
+    private var countryRecyclerAdapter: CountryRecyclerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,15 +37,18 @@ class TelsraFragment : Fragment(), CountryView {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        countryList = ArrayList()
-        countryAdapter = CountryAdapter(context, countryList!!)
-        telsraListView.adapter = countryAdapter
+        filterCountryList = ArrayList()
+
+        countryRecyclerAdapter = CountryRecyclerAdapter(this@TelsraFragment.context, filterCountryList!!)
+        val llm = LinearLayoutManager(this@TelsraFragment.context)
+        llm.orientation = LinearLayoutManager.VERTICAL
+        sampleRecyclerViewMvp.layoutManager = llm
+        sampleRecyclerViewMvp.adapter = countryRecyclerAdapter
 
         val countryPresenter = CountryPresenter(this)
         countryPresenter.sampleCountires()
 
         swipeFreshLayout.setOnRefreshListener {
-            Log.d("---> ", "onRefresh")
             countryPresenter.sampleCountires()
             swipeFreshLayout.isRefreshing = false
         }
@@ -54,16 +57,16 @@ class TelsraFragment : Fragment(), CountryView {
 
     override fun getCountryData(responseData: ResponseData) {
 
-        countryList!!.clear()
+        filterCountryList!!.clear()
 
-        for (i in 0 until responseData.rows!!.size) {
+        for (i in 0 until responseData.rows.size) {
             if (responseData.rows.get(i).title != null || responseData.rows.get(i).description != null) {
-                countryList!!.add(responseData.rows.get(i))
+                filterCountryList!!.add(responseData.rows.get(i))
             }
         }
 
-        countryAdapter!!.notifyDataSetChanged()
-        (activity as TeslraActivity).setActionBarTitle(responseData.title!!)
+        countryRecyclerAdapter!!.notifyDataSetChanged()
+        (activity as TeslraActivity).setActionBarTitle(responseData.title)
 
     }
 }
