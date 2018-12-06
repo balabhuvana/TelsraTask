@@ -59,11 +59,9 @@ class TelsraFragment : Fragment(), CountryView {
 
         filterCountryList!!.clear()
 
-        for (i in 0 until responseData.rows.size) {
-            if (responseData.rows.get(i).title != null || responseData.rows.get(i).description != null) {
-                filterCountryList!!.add(responseData.rows.get(i))
-            }
-        }
+        (0 until responseData.rows.size)
+                .filter { responseData.rows.get(it).title != null || responseData.rows.get(it).description != null }
+                .forEach { filterCountryList!!.add(responseData.rows[it]) }
 
         countryRecyclerAdapter!!.notifyDataSetChanged()
         (activity as TeslraActivity).setActionBarTitle(responseData.title)

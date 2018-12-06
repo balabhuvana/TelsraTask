@@ -15,7 +15,7 @@ import app.telsra.com.telsratask.model.CountryData
 import com.bumptech.glide.Glide
 
 
-class CountryRecyclerAdapter(var mCtx: Context, var notesList: ArrayList<CountryData>) : RecyclerView.Adapter<CountryRecyclerAdapter.SampleViewHolder>() {
+class CountryRecyclerAdapter(private var mCtx: Context, private var notesList: ArrayList<CountryData>) : RecyclerView.Adapter<CountryRecyclerAdapter.SampleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SampleViewHolder {
         val view = LayoutInflater.from(mCtx).inflate(R.layout.telsra_data_row, parent, false)
@@ -29,8 +29,8 @@ class CountryRecyclerAdapter(var mCtx: Context, var notesList: ArrayList<Country
                 .load(country.imageHref)
                 .into(holder.countryImage)
 
-        holder.tvTitle!!.setText(country.title)
-        holder.tvContent!!.setText(country.description)
+        holder.tvTitle!!.text = country.title
+        holder.tvContent!!.text = country.description
     }
 
     override fun getItemCount(): Int {

@@ -6,13 +6,12 @@ import android.arch.lifecycle.ViewModel
 import android.util.Log
 import app.telsra.com.telsratask.model.ResponseData
 import app.telsra.com.telsratask.restservice.CountryAPI
+import app.telsra.com.telsratask.util.Constant
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
-
 
 
 /**
@@ -24,7 +23,7 @@ class SampleViewModel : ViewModel() {
 
     fun getCountryList(): LiveData<ResponseData> {
         if (countryList == null) {
-            countryList = MutableLiveData<ResponseData>()
+            countryList = MutableLiveData()
             loadCountryList()
         }
 
@@ -33,10 +32,9 @@ class SampleViewModel : ViewModel() {
 
     private fun loadCountryList() {
 
-        val BASE_URL = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/"
 
         val retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(Constant.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 

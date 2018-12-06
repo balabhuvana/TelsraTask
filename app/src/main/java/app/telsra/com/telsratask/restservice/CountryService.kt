@@ -1,5 +1,6 @@
 package app.telsra.com.telsratask.restservice
 
+import app.telsra.com.telsratask.util.Constant
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -16,11 +17,11 @@ class CountryService {
      */
     val api: CountryAPI
         get() {
-            val BASE_URL = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/"
+
 
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
-                        .baseUrl(BASE_URL)
+                        .baseUrl(Constant.BASE_URL)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
             }

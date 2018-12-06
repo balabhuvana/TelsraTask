@@ -17,7 +17,7 @@
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/countryImage"
+                android:layout_toStartOf="@id/countryImage"
                 android:padding="@dimen/size_5"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/size_18sp" />
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvTitle"
-                android:layout_toLeftOf="@id/countryImage"
+                android:layout_toStartOf="@id/countryImage"
                 android:padding="@dimen/size_5" />
 
             <ImageView
