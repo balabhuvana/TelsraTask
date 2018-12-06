@@ -1,10 +1,10 @@
 package app.telsra.com.telsratask.model
 
+import android.accounts.AuthenticatorDescription
+
 /**
  * Created by bala on 25/11/18.
  */
-class CountryData {
-     val title: String? = null
-     val description: String? = null
-     val imageHref: String? = null
-}
+data class CountryData(val title: String?,
+                       val description: String,
+                       val imageHref: String)
