@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
-import app.telsra.com.telsratask.model.CountryData
 import app.telsra.com.telsratask.model.ResponseData
 import app.telsra.com.telsratask.restservice.CountryAPI
 import retrofit2.Call
@@ -14,20 +13,22 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
+
+
 /**
  * Created by bala on 4/12/18.
  */
 class SampleViewModel : ViewModel() {
 
-    private var countryList: MutableLiveData<List<CountryData>>? = null
+    private var countryList: MutableLiveData<ResponseData>? = null
 
-    fun getCountryList(): LiveData<List<CountryData>> {
+    fun getCountryList(): LiveData<ResponseData> {
         if (countryList == null) {
-            countryList = MutableLiveData<List<CountryData>>()
+            countryList = MutableLiveData<ResponseData>()
             loadCountryList()
         }
 
-        return countryList as MutableLiveData<List<CountryData>>
+        return countryList as MutableLiveData<ResponseData>
     }
 
     private fun loadCountryList() {
@@ -52,7 +53,8 @@ class SampleViewModel : ViewModel() {
             override fun onResponse(call: Call<ResponseData>?, response: Response<ResponseData>?) {
                 val data = response!!.body()
                 val sampledata = data!!.rows
-                countryList!!.postValue(sampledata)
+                countryList!!.postValue(data)
+
             }
         })
 

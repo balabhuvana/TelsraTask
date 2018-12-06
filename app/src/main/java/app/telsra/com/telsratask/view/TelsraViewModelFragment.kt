@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import app.telsra.com.telsratask.R
 import app.telsra.com.telsratask.adapter.CountryRecyclerAdapter
 import app.telsra.com.telsratask.model.CountryData
+import app.telsra.com.telsratask.model.ResponseData
 import kotlinx.android.synthetic.main.fragment_telsra_view_model.*
 import viewmodel.SampleViewModel
 
@@ -41,11 +42,15 @@ class TelsraViewModelFragment : Fragment() {
         }
 
         var sampleViewModel = ViewModelProviders.of(this).get(SampleViewModel::class.java)
-        sampleViewModel.getCountryList().observe(this, object : Observer<List<CountryData>> {
-            override fun onChanged(countryList: List<CountryData>?) {
+        sampleViewModel.getCountryList().observe(this, object : Observer<ResponseData> {
+            override fun onChanged(t: ResponseData?) {
+
+                (activity as TeslraActivity).setActionBarTitle(t!!.title)
 
                 filterCountryList = ArrayList<CountryData>()
                 swipeRefreshCountryList = ArrayList<CountryData>()
+
+                var countryList = t!!.rows
 
                 for (i in 0 until countryList!!.size) {
                     if (countryList.get(i).title != null || countryList.get(i).description != null) {
@@ -59,7 +64,6 @@ class TelsraViewModelFragment : Fragment() {
                 llm.orientation = LinearLayoutManager.VERTICAL
                 sampleRecyclerViewModel.setLayoutManager(llm)
                 sampleRecyclerViewModel.setAdapter(countryRecyclerAdapter)
-
             }
         })
     }
