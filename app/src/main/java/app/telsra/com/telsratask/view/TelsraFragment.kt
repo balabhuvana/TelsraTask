@@ -1,12 +1,15 @@
 package app.telsra.com.telsratask.view
 
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import app.telsra.com.telsratask.R
 import app.telsra.com.telsratask.adapter.CountryRecyclerAdapter
 import app.telsra.com.telsratask.model.CountryData
@@ -46,10 +49,17 @@ class TelsraFragment : Fragment(), CountryView {
         sampleRecyclerViewMvp.adapter = countryRecyclerAdapter
 
         val countryPresenter = CountryPresenter(this)
-        countryPresenter.sampleCountires()
-
-        swipeFreshLayout.setOnRefreshListener {
+        if (isConnected()) {
             countryPresenter.sampleCountires()
+        } else {
+            Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_LONG).show()
+        }
+        swipeFreshLayout.setOnRefreshListener {
+            if (isConnected()) {
+                countryPresenter.sampleCountires()
+            } else {
+                Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_LONG).show()
+            }
             swipeFreshLayout.isRefreshing = false
         }
 
@@ -67,4 +77,13 @@ class TelsraFragment : Fragment(), CountryView {
         (activity as TeslraActivity).setActionBarTitle(responseData.title)
 
     }
+
+    fun isConnected(): Boolean {
+        val cm = activity.getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting
+    }
+
+
 }
